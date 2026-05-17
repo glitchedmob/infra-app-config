@@ -25,6 +25,7 @@ resource "headscale_policy" "this" {
         "src" : ["group:admins"]
         "dst" : [
           format("%s:*", local.proxmox_tag),
+          format("%s:*", local.infra_public_edge_tag),
           format("%s:*", local.management_route),
           format("%s:*", local.workload_route_supernet),
         ]
