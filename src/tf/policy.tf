@@ -77,6 +77,11 @@ resource "headscale_policy" "this" {
       },
       {
         "action" : "accept"
+        "src" : [local.gha_lz_tag]
+        "dst" : [format("%s:22", local.infra_public_edge_tag)]
+      },
+      {
+        "action" : "accept"
         "proto" : "icmp"
         "src" : [local.gha_lz_tag]
         "dst" : [format("%s:*", local.lz_workload_cidr)]
