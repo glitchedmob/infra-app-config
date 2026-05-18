@@ -10,5 +10,9 @@ terraform {
       source  = "awlsring/headscale"
       version = "~> 0.5"
     }
+    uptimekuma = {
+      source  = "breml/uptimekuma"
+      version = "~> 0.1"
+    }
   }
 }

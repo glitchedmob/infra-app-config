@@ -35,5 +35,7 @@ jobs:
     secrets:
       envrc_content: |
         export TF_VAR_headscale_api_key="${{ secrets.TF_VAR_headscale_api_key }}"
+        export TF_VAR_uptimekuma_username="${{ secrets.TF_VAR_uptimekuma_username }}"
+        export TF_VAR_uptimekuma_password="${{ secrets.TF_VAR_uptimekuma_password }}"
       aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
       output_encryption_key: ${{ secrets.OUTPUT_ENCRYPTION_KEY }}

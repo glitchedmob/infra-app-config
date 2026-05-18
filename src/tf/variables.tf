@@ -15,3 +15,21 @@ variable "headscale_api_key" {
   type        = string
   sensitive   = true
 }
+
+variable "uptimekuma_endpoint" {
+  description = "Uptime Kuma endpoint URL"
+  type        = string
+  default     = "https://uptime2.levizitting.com"
+}
+
+variable "uptimekuma_username" {
+  description = "Uptime Kuma username"
+  type        = string
+  sensitive   = true
+}
+
+variable "uptimekuma_password" {
+  description = "Uptime Kuma password"
+  type        = string
+  sensitive   = true
+}
