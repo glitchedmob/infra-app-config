@@ -1,6 +1,8 @@
-# infra-headscale
+# infra-app-config
 
-Manages Headscale users, policy, and pre-auth key lifecycle for LZ infrastructure and automation identities.
+Manages post-bootstrap configuration for LZ edge-hosted applications.
+
+Currently owns: Headscale users, ACL policy, and pre-auth key lifecycle.
 
 ## Scope
 - Owns: Headscale user resources for humans, infrastructure nodes, and GitHub Actions identities.
