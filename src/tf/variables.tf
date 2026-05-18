@@ -19,7 +19,7 @@ variable "headscale_api_key" {
 variable "uptimekuma_endpoint" {
   description = "Uptime Kuma endpoint URL"
   type        = string
-  default     = "https://uptime2.levizitting.com"
+  default     = "https://uptime.levizitting.com"
 }
 
 variable "uptimekuma_username" {
