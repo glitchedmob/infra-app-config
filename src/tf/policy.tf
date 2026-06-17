@@ -12,6 +12,7 @@ resource "headscale_policy" "this" {
       (local.infra_public_edge_tag) : ["group:infra"]
       (local.gha_lz_tag) : ["group:infra"]
       (local.gha_sgfdevs_tag) : ["group:infra"]
+      (local.lz_k3s_tag) : ["group:infra"]
     }
     "autoApprovers" : {
       "routes" : {
@@ -85,6 +86,11 @@ resource "headscale_policy" "this" {
         "proto" : "icmp"
         "src" : [local.gha_lz_tag]
         "dst" : [format("%s:*", local.lz_workload_cidr)]
+      },
+      {
+        "action" : "accept"
+        "src" : [local.lz_k3s_tag]
+        "dst" : [format("%s:53", local.infra_public_edge_tag)]
       },
       {
         "action" : "accept"
