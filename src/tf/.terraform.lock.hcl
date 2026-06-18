@@ -39,7 +39,7 @@ provider "registry.opentofu.org/awlsring/headscale" {
 
 provider "registry.opentofu.org/breml/uptimekuma" {
   version     = "0.3.3"
-  constraints = "~> 0.1"
+  constraints = "~> 0.3"
   hashes = [
     "h1:1j8OK/G0fYCZtTVS1XuHvyu+/Sh4oVZVw33pj2HqZNo=",
     "h1:4vPW6U2D16PDhf6/E3Bma1eP7mKN8KrZU3JNTyxp1bQ=",
