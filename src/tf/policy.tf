@@ -18,7 +18,7 @@ resource "headscale_policy" "this" {
       "routes" : {
         (local.management_route) : [local.proxmox_tag]
         (local.workload_route_supernet) : [local.proxmox_tag]
-        (local.public_edge_dns_ip) : [local.infra_public_edge_tag]
+        (local.public_edge_dns_ip) : [local.infra_public_edge_tag, local.proxmox_tag, local.lz_k3s_tag]
       }
     }
     "acls" : [
