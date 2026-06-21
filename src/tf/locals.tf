@@ -14,6 +14,7 @@ locals {
   gha_sgfdevs_user        = "gha-sgfdevs"
   lz_k3s_user             = "lz-k3s"
   infra_public_edge_node  = "x86-vps-node-01"
+  public_edge_dns_ip      = "10.255.255.1/32"
   admins                  = [headscale_user.levizitting.name]
   headscale_proxmox_nodes = ["x86-node-01", "x86-node-02"]
   headscale_lz_k3s_nodes  = ["lz-k3s-01", "lz-k3s-02"]

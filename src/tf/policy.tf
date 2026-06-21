@@ -18,6 +18,7 @@ resource "headscale_policy" "this" {
       "routes" : {
         (local.management_route) : [local.proxmox_tag]
         (local.workload_route_supernet) : [local.proxmox_tag]
+        (local.public_edge_dns_ip) : [local.infra_public_edge_tag]
       }
     }
     "acls" : [
@@ -89,8 +90,8 @@ resource "headscale_policy" "this" {
       },
       {
         "action" : "accept"
-        "src" : [local.lz_k3s_tag]
-        "dst" : [format("%s:53", local.infra_public_edge_tag)]
+        "src" : ["*"]
+        "dst" : [format("%s:53", local.public_edge_dns_ip)]
       },
       {
         "action" : "accept"
