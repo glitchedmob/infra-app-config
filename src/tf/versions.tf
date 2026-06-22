@@ -14,5 +14,9 @@ terraform {
       source  = "breml/uptimekuma"
       version = "~> 0.3"
     }
+    vault = {
+      source  = "hashicorp/vault"
+      version = "~> 5.9"
+    }
   }
 }

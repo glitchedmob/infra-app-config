@@ -32,10 +32,13 @@ jobs:
     with:
       plan-only: ${{ github.event_name == 'workflow_dispatch' && inputs.mode != 'plan-apply' }}
       target-list: ${{ inputs.target-list }}
+      headscale-login-server: "https://headscale.levizitting.com"
     secrets:
       envrc_content: |
         export TF_VAR_headscale_api_key="${{ secrets.TF_VAR_headscale_api_key }}"
         export TF_VAR_uptimekuma_username="${{ secrets.TF_VAR_uptimekuma_username }}"
         export TF_VAR_uptimekuma_password="${{ secrets.TF_VAR_uptimekuma_password }}"
+        export TF_VAR_openbao_token="${{ secrets.TF_VAR_openbao_token }}"
       aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
+      headscale_auth_key: ${{ secrets.HEADSCALE_AUTH_KEY }}
       output_encryption_key: ${{ secrets.OUTPUT_ENCRYPTION_KEY }}

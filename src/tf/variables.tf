@@ -33,3 +33,15 @@ variable "uptimekuma_password" {
   type        = string
   sensitive   = true
 }
+
+variable "openbao_host" {
+  description = "OpenBao API hostname"
+  type        = string
+  default     = "secrets.levizitting.com"
+}
+
+variable "openbao_token" {
+  description = "OpenBao authentication token"
+  type        = string
+  sensitive   = true
+}

@@ -12,3 +12,9 @@ provider "uptimekuma" {
   username = var.uptimekuma_username
   password = var.uptimekuma_password
 }
+
+provider "vault" {
+  address         = "https://${var.openbao_host}"
+  token           = var.openbao_token
+  skip_tls_verify = true
+}

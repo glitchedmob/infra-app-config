@@ -84,6 +84,16 @@ resource "headscale_policy" "this" {
       },
       {
         "action" : "accept"
+        "src" : [local.gha_lz_tag]
+        "dst" : [format("%s:443", local.lz_k3s_tag)]
+      },
+      {
+        "action" : "accept"
+        "src" : [local.gha_lz_tag]
+        "dst" : [format("%s:443", local.lz_workload_cidr)]
+      },
+      {
+        "action" : "accept"
         "proto" : "icmp"
         "src" : [local.gha_lz_tag]
         "dst" : [format("%s:*", local.lz_workload_cidr)]
