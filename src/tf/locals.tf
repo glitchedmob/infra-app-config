@@ -17,5 +17,5 @@ locals {
   public_edge_dns_ip      = "10.255.255.1/32"
   admins                  = [headscale_user.levizitting.name]
   headscale_proxmox_nodes = ["x86-node-01", "x86-node-02"]
-  headscale_lz_k3s_nodes  = ["lz-k3s-01", "lz-k3s-02"]
+  headscale_lz_k3s_nodes  = ["lz-k3s-01", "lz-k3s-02", "lz-k3s-03"]
 }
