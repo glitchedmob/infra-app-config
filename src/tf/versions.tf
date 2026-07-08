@@ -18,5 +18,9 @@ terraform {
       source  = "hashicorp/vault"
       version = "~> 5.10"
     }
+    json-formatter = {
+      source  = "TheNicholi/json-formatter"
+      version = "~> 0.1"
+    }
   }
 }

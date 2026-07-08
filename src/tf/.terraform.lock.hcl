@@ -144,3 +144,39 @@ provider "registry.opentofu.org/hashicorp/vault" {
     "zh:f0640ddb52e7e90c5006ff571f6ad0554e593665320c764c57a3d8b7ec31b490",
   ]
 }
+
+provider "registry.opentofu.org/thenicholi/json-formatter" {
+  version     = "0.1.1"
+  constraints = "~> 0.1"
+  hashes = [
+    "h1:+pJ2sytRaYNJWnoxX/ee0kfPbkAhjnE7blHpX2kfc4g=",
+    "h1:4EXX6UlGeuVSwzfDAo5WJHNxHSVRrDUS96eVcpnmIWk=",
+    "h1:9X/PPQccrnEn6l1PkN1j5KTYr8pbYDFOw1ZSmFYT3i4=",
+    "h1:GsPsigC12Sx1m96NvGVxOFEULfNd4LuVMuaoGoFeffw=",
+    "h1:HBaZVz5HXZl/Wo661z2/o8pY43gNpcl9OuZyVHAZV8M=",
+    "h1:HO/TYGCR38VikeN5ks5eL5VnKG2l52C4VJeqbgKVNpY=",
+    "h1:JzaNJYA7hddGW8/ULOsegOYN6UO14sCBCalD8bx3kTA=",
+    "h1:U+zZH0uQVAsmWVeNNHSKW86BIhz9YpOCkfZsNQLTvfg=",
+    "h1:XfrX0Zfhzs5aILmLYFKjdCO2TzwY/bZ3PGvkoFIU7wo=",
+    "h1:ZzAXv+tXuiljT9T2Lbh4PqusCygdjD6zAtIWVELYhUk=",
+    "h1:bX9lsIVuAugKdi73noBVlM4/n788VNu4X8megrPkUzM=",
+    "h1:jslZwLZu7ZviyDVA3ZaGu3ifvw+iOwjMyR4eqAE3zsI=",
+    "h1:vFjDw0XgIh6yPIeDX79bEYrF/WcSRvffbuwWk2fn0Fc=",
+    "h1:y0lIzLonbc75EUfyzL5QbgMpk7OdN4s+90OPhWMbPiw=",
+    "zh:0edcb8104a87e1e007cfb18950009cdd98c9f8ee047851486a94aa4865532382",
+    "zh:14cd562ed9679131c2a64a3ade229ee8b2c4366ad9f0d8570c9868440e5a36c4",
+    "zh:204a4e3c9c4c3c8f988836640b1a4c47e43fcd821214671520dcab3d5bb76fb0",
+    "zh:3c6982ce4eed01306670558f55d616cb3ba65d2399575296d965a7c7ecf23280",
+    "zh:55e976507b22050f2204e077370f679972ad6b44b97970c3b48d4fb87e825081",
+    "zh:5a0c537048ab0d931daa7e7d55fe4c15bd48c0a7f2d05fdd6978841c614d4fb4",
+    "zh:5f96845dff445832b85d1cce349cb5fba9504fa178095c13943d6a16c79b1c29",
+    "zh:6be8dd856608bf5a45ede8126d76cd7c1f34b6db2b54971f9bdbc5ad2e1acd8d",
+    "zh:7e4d7138a472bd2b4eeac3fe09d0e4e886429c19a38be4d4db88f79982f09689",
+    "zh:9b12af85486a96aedd8d7984b0ff811a4b42e3d88dad1a3fb4c0b580d04fa425",
+    "zh:ac91277752e836fd560c3025684ebecb8bee43741f1f5afc185ece41934dd628",
+    "zh:af9852354805e7e2de0edb981d3750a942e4692201f11e937e281d8e086069a2",
+    "zh:b9db6195f81b1b215d2d1df1ab390a79d0a673fba3edf2365d3843fc641f66e4",
+    "zh:cb43ff8daa3556a049ab9add43a8c4ab079c5ac761afc599c1ffa480127d24d4",
+    "zh:db9babef5ab83b94c8d6ee06430373575d801c24408e18d52140d74d9b95f585",
+  ]
+}

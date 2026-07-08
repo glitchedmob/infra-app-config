@@ -1,5 +1,5 @@
-resource "headscale_policy" "this" {
-  policy = jsonencode({
+data "json-formatter_format_json" "headscale_policy" {
+  json = jsonencode({
     "groups" : {
       "group:admins" : formatlist("%s@", local.admins)
       "group:infra" : concat(
@@ -121,4 +121,8 @@ resource "headscale_policy" "this" {
       },
     ]
   })
+}
+
+resource "headscale_policy" "this" {
+  policy = data.json-formatter_format_json.headscale_policy.result
 }
