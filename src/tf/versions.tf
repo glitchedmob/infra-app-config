@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 6.33"
+      version = "~> 6.53"
     }
     headscale = {
       source  = "awlsring/headscale"
@@ -16,7 +16,7 @@ terraform {
     }
     vault = {
       source  = "hashicorp/vault"
-      version = "~> 5.9"
+      version = "~> 5.10"
     }
   }
 }
