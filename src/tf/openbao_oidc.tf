@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
-ephemeral "aws_ssm_parameter" "dex_openbao_client_secret" {
-  arn = "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter/vm-workloads/lz/infra-vm-workloads/dex-client-openbao-secret"
+ephemeral "aws_ssm_parameter" "dex_client_secrets" {
+  arn = "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter/vm-workloads/lz/infra-vm-workloads/dex-client-secrets"
 }
 
 resource "vault_jwt_auth_backend" "oidc" {
@@ -10,7 +10,7 @@ resource "vault_jwt_auth_backend" "oidc" {
   type                          = "oidc"
   oidc_discovery_url            = "https://sso.levizitting.com"
   oidc_client_id                = "openbao"
-  oidc_client_secret_wo         = ephemeral.aws_ssm_parameter.dex_openbao_client_secret.value
+  oidc_client_secret_wo         = jsondecode(ephemeral.aws_ssm_parameter.dex_client_secrets.value).openbaoClientSecret
   oidc_client_secret_wo_version = 1
   default_role                  = "admin"
   bound_issuer                  = "https://sso.levizitting.com"
