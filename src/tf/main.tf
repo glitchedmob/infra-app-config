@@ -8,3 +8,7 @@ module "uptime_kuma" {
   uptimekuma_endpoint = var.uptimekuma_endpoint
   proxmox_nodes       = ["x86-node-01", "x86-node-02"]
 }
+
+module "openbao" {
+  source = "./modules/openbao"
+}
