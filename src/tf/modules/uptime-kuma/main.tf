@@ -48,7 +48,7 @@ resource "uptimekuma_monitor_group" "legacy_services" {
 }
 
 resource "uptimekuma_monitor_push" "proxmox" {
-  for_each = toset(local.headscale_proxmox_nodes)
+  for_each = toset(var.proxmox_nodes)
 
   name             = "Proxmox ${each.key}"
   parent           = uptimekuma_monitor_group.proxmox.id

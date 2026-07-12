@@ -1,6 +1,6 @@
 module "headscale_proxmox_auth_keys" {
   for_each = toset(local.headscale_proxmox_nodes)
-  source   = "./modules/headscale-pre-auth-key"
+  source   = "./modules/pre-auth-key"
 
   user_id                   = headscale_user.proxmox.id
   time_to_expire            = "1h"
@@ -13,7 +13,7 @@ module "headscale_proxmox_auth_keys" {
 }
 
 module "headscale_gha_lz_auth_key" {
-  source = "./modules/headscale-pre-auth-key"
+  source = "./modules/pre-auth-key"
 
   user_id                   = headscale_user.gha_lz.id
   time_to_expire            = "36500d"
@@ -26,7 +26,7 @@ module "headscale_gha_lz_auth_key" {
 }
 
 module "headscale_gha_sgfdevs_auth_key" {
-  source = "./modules/headscale-pre-auth-key"
+  source = "./modules/pre-auth-key"
 
   user_id                   = headscale_user.gha_sgfdevs.id
   time_to_expire            = "36500d"
@@ -39,7 +39,7 @@ module "headscale_gha_sgfdevs_auth_key" {
 }
 
 module "headscale_infra_public_edge_auth_key" {
-  source = "./modules/headscale-pre-auth-key"
+  source = "./modules/pre-auth-key"
 
   user_id                   = headscale_user.infra_public_edge.id
   time_to_expire            = "1h"
@@ -53,7 +53,7 @@ module "headscale_infra_public_edge_auth_key" {
 
 module "headscale_lz_k3s_auth_keys" {
   for_each = toset(local.headscale_lz_k3s_nodes)
-  source   = "./modules/headscale-pre-auth-key"
+  source   = "./modules/pre-auth-key"
 
   user_id                   = headscale_user.lz_k3s.id
   time_to_expire            = "1h"
