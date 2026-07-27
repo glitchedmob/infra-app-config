@@ -25,7 +25,7 @@ resource "vault_jwt_auth_backend_role" "admin" {
   bound_claims = {
     email = "me@levizitting.com"
   }
-  token_policies = ["default"]
+  token_policies = ["default", vault_policy.application_secrets_admin.name]
   oidc_scopes    = ["openid", "profile", "email"]
   allowed_redirect_uris = [
     "https://secrets.levizitting.com/ui/vault/auth/oidc/oidc/callback",

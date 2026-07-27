@@ -35,6 +35,7 @@ jobs:
       headscale-login-server: "https://headscale.levizitting.com"
     secrets:
       envrc_content: |
+        export TF_VAR_authentik_token="${{ secrets.TF_VAR_authentik_token }}"
         export TF_VAR_headscale_api_key="${{ secrets.TF_VAR_headscale_api_key }}"
         export TF_VAR_uptimekuma_username="${{ secrets.TF_VAR_uptimekuma_username }}"
         export TF_VAR_uptimekuma_password="${{ secrets.TF_VAR_uptimekuma_password }}"

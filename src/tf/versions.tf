@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 6.53"
     }
+    authentik = {
+      source  = "goauthentik/authentik"
+      version = "~> 2026.5"
+    }
     headscale = {
       source  = "awlsring/headscale"
       version = "~> 0.5"

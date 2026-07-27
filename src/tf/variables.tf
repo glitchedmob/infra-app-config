@@ -4,6 +4,18 @@ variable "aws_region" {
   default     = "us-east-2"
 }
 
+variable "authentik_url" {
+  description = "Authentik API URL"
+  type        = string
+  default     = "https://id.levizitting.com"
+}
+
+variable "authentik_token" {
+  description = "Authentik API token"
+  type        = string
+  sensitive   = true
+}
+
 variable "headscale_host" {
   description = "Headscale hostname"
   type        = string

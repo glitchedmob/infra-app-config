@@ -12,3 +12,10 @@ module "uptime_kuma" {
 module "openbao" {
   source = "./modules/openbao"
 }
+
+module "tandoor" {
+  source = "./modules/tandoor"
+
+  applications_mount_path = module.openbao.applications_mount_path
+  authentik_url           = var.authentik_url
+}
