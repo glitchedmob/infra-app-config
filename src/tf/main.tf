@@ -13,6 +13,10 @@ module "openbao" {
   source = "./modules/openbao"
 }
 
+module "authentik" {
+  source = "./modules/authentik"
+}
+
 module "tandoor" {
   source = "./modules/tandoor"
 
