@@ -25,32 +25,12 @@ resource "vault_policy" "tandoor_secrets" {
   EOT
 }
 
-resource "vault_policy" "tandoor_s3" {
-  name   = "tandoor-s3"
-  policy = <<-EOT
-    path "${vault_mount.applications.path}/data/tandoor/s3" {
-      capabilities = ["read"]
-    }
-  EOT
-}
-
 resource "vault_kubernetes_auth_backend_role" "tandoor_secrets" {
   backend                          = vault_auth_backend.kubernetes.path
   role_name                        = "tandoor-secrets"
   bound_service_account_names      = ["tandoor-secrets"]
   bound_service_account_namespaces = ["tandoor"]
   token_policies                   = [vault_policy.tandoor_secrets.name]
-  token_no_default_policy          = true
-  token_ttl                        = 900
-  token_max_ttl                    = 900
-}
-
-resource "vault_kubernetes_auth_backend_role" "seaweedfs_tandoor_s3" {
-  backend                          = vault_auth_backend.kubernetes.path
-  role_name                        = "seaweedfs-tandoor-s3"
-  bound_service_account_names      = ["seaweedfs-tandoor-s3"]
-  bound_service_account_namespaces = ["seaweedfs"]
-  token_policies                   = [vault_policy.tandoor_s3.name]
   token_no_default_policy          = true
   token_ttl                        = 900
   token_max_ttl                    = 900

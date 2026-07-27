@@ -4,23 +4,12 @@ locals {
 
   secret_versions = {
     runtime = 1
-    s3      = 1
     backup  = 1
   }
 }
 
 ephemeral "random_password" "runtime_secret_key" {
   length  = 64
-  special = false
-}
-
-ephemeral "random_password" "s3_access_key" {
-  length  = 24
-  special = false
-}
-
-ephemeral "random_password" "s3_secret_key" {
-  length  = 48
   special = false
 }
 
@@ -111,17 +100,6 @@ resource "vault_kv_secret_v2" "runtime" {
     secretKey = ephemeral.random_password.runtime_secret_key.result
   })
   data_json_wo_version = local.secret_versions.runtime
-}
-
-resource "vault_kv_secret_v2" "s3" {
-  mount        = var.applications_mount_path
-  name         = "tandoor/s3"
-  disable_read = true
-  data_json_wo = jsonencode({
-    accessKey = ephemeral.random_password.s3_access_key.result
-    secretKey = ephemeral.random_password.s3_secret_key.result
-  })
-  data_json_wo_version = local.secret_versions.s3
 }
 
 resource "vault_kv_secret_v2" "backup" {
