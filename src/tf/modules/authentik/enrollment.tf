@@ -18,7 +18,7 @@ resource "authentik_stage_prompt_field" "username" {
   type        = "username"
   required    = true
   placeholder = "Username"
-  order       = 0
+  order       = 2
 }
 
 resource "authentik_stage_prompt_field" "password" {
@@ -28,7 +28,7 @@ resource "authentik_stage_prompt_field" "password" {
   type        = "password"
   required    = true
   placeholder = "Password"
-  order       = 1
+  order       = 3
 }
 
 resource "authentik_stage_prompt_field" "password_repeat" {
@@ -38,7 +38,7 @@ resource "authentik_stage_prompt_field" "password_repeat" {
   type        = "password"
   required    = true
   placeholder = "Password confirmation"
-  order       = 2
+  order       = 4
 }
 
 resource "authentik_stage_prompt_field" "name" {
@@ -62,19 +62,13 @@ resource "authentik_stage_prompt_field" "email" {
 }
 
 resource "authentik_stage_prompt" "credentials" {
-  name = "Invitation credentials"
-  fields = [
-    authentik_stage_prompt_field.username.id,
-    authentik_stage_prompt_field.password.id,
-    authentik_stage_prompt_field.password_repeat.id,
-  ]
-}
-
-resource "authentik_stage_prompt" "details" {
-  name = "Invitation details"
+  name = "Invitation account details"
   fields = [
     authentik_stage_prompt_field.name.id,
     authentik_stage_prompt_field.email.id,
+    authentik_stage_prompt_field.username.id,
+    authentik_stage_prompt_field.password.id,
+    authentik_stage_prompt_field.password_repeat.id,
   ]
 }
 
@@ -101,12 +95,6 @@ resource "authentik_flow_stage_binding" "credentials" {
   target = authentik_flow.invitation_enrollment.uuid
   stage  = authentik_stage_prompt.credentials.id
   order  = 10
-}
-
-resource "authentik_flow_stage_binding" "details" {
-  target = authentik_flow.invitation_enrollment.uuid
-  stage  = authentik_stage_prompt.details.id
-  order  = 15
 }
 
 resource "authentik_flow_stage_binding" "user_write" {
