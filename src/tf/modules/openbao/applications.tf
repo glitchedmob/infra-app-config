@@ -19,6 +19,14 @@ resource "vault_policy" "application_secrets_admin" {
 resource "vault_policy" "tandoor_secrets" {
   name   = "tandoor-secrets"
   policy = <<-EOT
+    path "auth/token/lookup-self" {
+      capabilities = ["read"]
+    }
+
+    path "auth/token/renew-self" {
+      capabilities = ["update"]
+    }
+
     path "${vault_mount.applications.path}/data/tandoor/*" {
       capabilities = ["read"]
     }
