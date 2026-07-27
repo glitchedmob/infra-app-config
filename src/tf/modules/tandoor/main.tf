@@ -34,8 +34,27 @@ data "authentik_property_mapping_provider_scope" "oidc" {
   managed_list = [
     "goauthentik.io/providers/oauth2/scope-email",
     "goauthentik.io/providers/oauth2/scope-openid",
-    "goauthentik.io/providers/oauth2/scope-profile",
   ]
+}
+
+resource "authentik_property_mapping_provider_scope" "profile" {
+  name       = "Tandoor OIDC profile"
+  scope_name = "profile"
+  expression = <<-EOT
+    full_name = (request.user.name or request.user.username).strip()
+    name_parts = full_name.split(maxsplit=1)
+    given_name = request.user.attributes.get("given_name") or name_parts[0]
+    family_name = request.user.attributes.get("family_name") or (name_parts[1] if len(name_parts) > 1 else "")
+
+    return {
+      "name": full_name,
+      "given_name": given_name,
+      "family_name": family_name,
+      "preferred_username": request.user.username,
+      "nickname": request.user.username,
+      "groups": [group.name for group in request.user.groups.all()],
+    }
+  EOT
 }
 
 data "authentik_certificate_key_pair" "default" {
@@ -55,8 +74,11 @@ resource "authentik_provider_oauth2" "this" {
   authentication_flow = data.authentik_flow.authentication.id
   authorization_flow  = data.authentik_flow.authorization.id
   invalidation_flow   = data.authentik_flow.invalidation.id
-  property_mappings   = data.authentik_property_mapping_provider_scope.oidc.ids
-  signing_key         = data.authentik_certificate_key_pair.default.id
+  property_mappings = concat(
+    data.authentik_property_mapping_provider_scope.oidc.ids,
+    [authentik_property_mapping_provider_scope.profile.id],
+  )
+  signing_key = data.authentik_certificate_key_pair.default.id
 
   allowed_redirect_uris = [
     {
