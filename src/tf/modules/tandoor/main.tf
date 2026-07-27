@@ -51,6 +51,7 @@ resource "authentik_provider_oauth2" "this" {
   name                = "Tandoor"
   client_id           = local.application_slug
   client_type         = "confidential"
+  grant_types         = ["authorization_code"]
   authentication_flow = data.authentik_flow.authentication.id
   authorization_flow  = data.authentik_flow.authorization.id
   invalidation_flow   = data.authentik_flow.invalidation.id
