@@ -2,11 +2,6 @@ provider "aws" {
   region = var.aws_region
 }
 
-provider "authentik" {
-  url   = var.authentik_url
-  token = var.authentik_token
-}
-
 provider "headscale" {
   api_key  = var.headscale_api_key
   endpoint = "https://${var.headscale_host}"
