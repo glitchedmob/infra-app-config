@@ -11,16 +11,6 @@ resource "authentik_stage_invitation" "enrollment" {
   continue_flow_without_invitation = false
 }
 
-resource "authentik_stage_prompt_field" "username" {
-  name        = "Invitation username"
-  field_key   = "username"
-  label       = "Username"
-  type        = "username"
-  required    = true
-  placeholder = "Username"
-  order       = 2
-}
-
 resource "authentik_stage_prompt_field" "password" {
   name        = "Invitation password"
   field_key   = "password"
@@ -28,7 +18,7 @@ resource "authentik_stage_prompt_field" "password" {
   type        = "password"
   required    = true
   placeholder = "Password"
-  order       = 3
+  order       = 1
 }
 
 resource "authentik_stage_prompt_field" "password_repeat" {
@@ -38,7 +28,7 @@ resource "authentik_stage_prompt_field" "password_repeat" {
   type        = "password"
   required    = true
   placeholder = "Password confirmation"
-  order       = 4
+  order       = 2
 }
 
 resource "authentik_stage_prompt_field" "name" {
@@ -51,25 +41,31 @@ resource "authentik_stage_prompt_field" "name" {
   order       = 0
 }
 
-resource "authentik_stage_prompt_field" "email" {
-  name        = "Invitation email"
-  field_key   = "email"
-  label       = "Email"
-  type        = "email"
-  required    = true
-  placeholder = "Email"
-  order       = 1
-}
-
 resource "authentik_stage_prompt" "credentials" {
   name = "Invitation account details"
   fields = [
     authentik_stage_prompt_field.name.id,
-    authentik_stage_prompt_field.email.id,
-    authentik_stage_prompt_field.username.id,
     authentik_stage_prompt_field.password.id,
     authentik_stage_prompt_field.password_repeat.id,
   ]
+}
+
+resource "authentik_policy_expression" "invitation_identity" {
+  name       = "Require invitation identity"
+  expression = <<-EOT
+    invitation = request.context.get("invitation")
+    fixed_data = invitation.fixed_data if invitation else {}
+    username = str(fixed_data.get("username", "")).strip()
+    email = str(fixed_data.get("email", "")).strip()
+
+    if not username or not email:
+        ak_message("This invitation is missing an administrator-assigned username or email address.")
+        return False
+
+    request.context.setdefault("prompt_data", {})["username"] = username
+    request.context["prompt_data"]["email"] = email
+    return True
+  EOT
 }
 
 resource "authentik_stage_user_write" "invitation_enrollment" {
@@ -101,6 +97,12 @@ resource "authentik_flow_stage_binding" "user_write" {
   target = authentik_flow.invitation_enrollment.uuid
   stage  = authentik_stage_user_write.invitation_enrollment.id
   order  = 20
+}
+
+resource "authentik_policy_binding" "invitation_identity" {
+  target = authentik_flow_stage_binding.user_write.id
+  policy = authentik_policy_expression.invitation_identity.id
+  order  = 0
 }
 
 resource "authentik_flow_stage_binding" "user_login" {
