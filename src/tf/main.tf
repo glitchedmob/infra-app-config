@@ -13,13 +13,8 @@ module "openbao" {
   source = "./modules/openbao"
 }
 
-module "authentik" {
-  source = "./modules/authentik"
-}
-
 module "tandoor" {
   source = "./modules/tandoor"
 
   applications_mount_path = module.openbao.applications_mount_path
-  authentik_url           = var.authentik_url
 }
