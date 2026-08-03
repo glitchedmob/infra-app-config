@@ -17,4 +17,5 @@ module "tandoor" {
   source = "./modules/tandoor"
 
   applications_mount_path = module.openbao.applications_mount_path
+  zitadel_domain          = var.zitadel_domain
 }

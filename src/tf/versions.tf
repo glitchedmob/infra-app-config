@@ -22,5 +22,9 @@ terraform {
       source  = "TheNicholi/json-formatter"
       version = "~> 0.1"
     }
+    zitadel = {
+      source  = "zitadel/zitadel"
+      version = "~> 3.3"
+    }
   }
 }

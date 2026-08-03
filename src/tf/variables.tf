@@ -45,3 +45,16 @@ variable "openbao_token" {
   type        = string
   sensitive   = true
 }
+
+variable "zitadel_domain" {
+  description = "ZITADEL API hostname"
+  type        = string
+  default     = "id.levizitting.com"
+}
+
+variable "zitadel_jwt_profile_json" {
+  description = "ZITADEL machine user JWT profile"
+  type        = string
+  sensitive   = true
+  ephemeral   = true
+}

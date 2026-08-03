@@ -18,3 +18,8 @@ provider "vault" {
   token           = var.openbao_token
   skip_tls_verify = true
 }
+
+provider "zitadel" {
+  domain           = var.zitadel_domain
+  jwt_profile_json = var.zitadel_jwt_profile_json
+}
