@@ -13,6 +13,10 @@ module "openbao" {
   source = "./modules/openbao"
 }
 
+module "zitadel" {
+  source = "./modules/zitadel"
+}
+
 module "tandoor" {
   source = "./modules/tandoor"
 
