@@ -26,8 +26,16 @@ resource "zitadel_project" "tandoor" {
   name                   = "Tandoor"
   org_id                 = one(data.zitadel_organizations.default.ids)
   project_role_assertion = false
-  project_role_check     = false
+  project_role_check     = true
   has_project_check      = false
+}
+
+resource "zitadel_project_role" "access" {
+  org_id       = one(data.zitadel_organizations.default.ids)
+  project_id   = zitadel_project.tandoor.id
+  role_key     = "access"
+  display_name = "Tandoor Access"
+  group        = "Tandoor"
 }
 
 resource "zitadel_application_oidc" "tandoor" {
