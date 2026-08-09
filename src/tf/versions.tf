@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">= 1.11"
+  required_version = ">= 1.12"
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 6.53"
+      version = "~> 6.58"
     }
     headscale = {
       source  = "awlsring/headscale"
@@ -12,7 +12,7 @@ terraform {
     }
     uptimekuma = {
       source  = "breml/uptimekuma"
-      version = "~> 0.3"
+      version = "~> 0.4"
     }
     vault = {
       source  = "hashicorp/vault"
