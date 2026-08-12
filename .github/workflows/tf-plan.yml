@@ -2,9 +2,6 @@ name: Terraform Plan (PR)
 
 on:
   pull_request:
-    paths:
-      - src/tf/**
-      - .github/workflows/tf-plan.yml
 
 permissions:
   contents: read
@@ -12,13 +9,29 @@ permissions:
   pull-requests: write
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      terraform: ${{ steps.changed-files.outputs.any_changed }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: changed-files
+        uses: tj-actions/changed-files@v47
+        with:
+          files: |
+            src/tf/**
+            .github/workflows/tf-plan.yml
+
   validate:
+    needs: changes
+    if: needs.changes.outputs.terraform == 'true'
     uses: glitchedmob/infra-gha/.github/workflows/tf-validate.yml@v0.7.4
     with:
       init-backend: false
 
   plan:
-    needs: validate
+    needs: [changes, validate]
+    if: needs.changes.outputs.terraform == 'true'
     uses: glitchedmob/infra-gha/.github/workflows/tf-plan-apply.yml@v0.7.4
     with:
       plan-only: true
@@ -33,3 +46,14 @@ jobs:
       aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
       headscale_auth_key: ${{ secrets.HEADSCALE_AUTH_KEY }}
       output_encryption_key: ${{ secrets.OUTPUT_ENCRYPTION_KEY }}
+
+  terraform-checks:
+    name: Terraform checks
+    if: always()
+    needs: [changes, validate, plan]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: re-actors/alls-green@05ac9388f0aebcb5727afa17fcccfecd6f8ec5fe
+        with:
+          allowed-skips: validate, plan
+          jobs: ${{ toJSON(needs) }}
