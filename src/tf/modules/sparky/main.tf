@@ -1,5 +1,5 @@
 locals {
-  application_url = "https://sparky.levizitting.com"
+  application_url  = "https://sparky.levizitting.com"
   ses_from_address = "sparky@levizitting.com"
   ses_policy_arn   = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/applications/levizitting-com/LevizittingComSESSender"
 
@@ -127,9 +127,9 @@ resource "vault_kv_secret_v2" "smtp" {
   name         = "sparky/smtp"
   disable_read = true
   data_json_wo = jsonencode({
-    smtpFrom         = local.ses_from_address
-    smtpPassword     = aws_iam_access_key.ses.ses_smtp_password_v4
-    smtpUser         = aws_iam_access_key.ses.id
+    smtpFrom     = local.ses_from_address
+    smtpPassword = aws_iam_access_key.ses.ses_smtp_password_v4
+    smtpUser     = aws_iam_access_key.ses.id
   })
   data_json_wo_version = local.secret_versions.smtp
 }
