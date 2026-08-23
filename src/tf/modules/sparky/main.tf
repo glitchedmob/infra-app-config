@@ -9,6 +9,9 @@ locals {
     backup  = 1
     oidc    = 1
   }
+
+  bootstrap_oidc_client_secret = false
+  rotate_oidc_client_secret    = false
 }
 
 ephemeral "random_password" "api_encryption_key" {
@@ -119,12 +122,20 @@ resource "zitadel_application_oidc" "sparky" {
   ]
   post_logout_redirect_uris    = [local.application_url]
   app_type                     = "OIDC_APP_TYPE_WEB"
-  auth_method_type             = "OIDC_AUTH_METHOD_TYPE_BASIC"
+  auth_method_type             = local.bootstrap_oidc_client_secret ? "OIDC_AUTH_METHOD_TYPE_NONE" : "OIDC_AUTH_METHOD_TYPE_BASIC"
   version                      = "OIDC_VERSION_1_0"
   dev_mode                     = false
   id_token_role_assertion      = false
   id_token_userinfo_assertion  = false
   skip_native_app_success_page = false
+}
+
+ephemeral "zitadel_application_oidc_client_secret" "sparky" {
+  count = local.bootstrap_oidc_client_secret || local.rotate_oidc_client_secret ? 1 : 0
+
+  project_id = zitadel_application_oidc.sparky.project_id
+  app_id     = zitadel_application_oidc.sparky.id
+  org_id     = zitadel_application_oidc.sparky.org_id
 }
 
 resource "vault_kv_secret_v2" "oidc" {
@@ -133,7 +144,7 @@ resource "vault_kv_secret_v2" "oidc" {
   disable_read = true
   data_json_wo = jsonencode({
     clientId     = zitadel_application_oidc.sparky.client_id
-    clientSecret = zitadel_application_oidc.sparky.client_secret
+    clientSecret = one(ephemeral.zitadel_application_oidc_client_secret.sparky[*].client_secret)
     issuerUrl    = "https://${var.zitadel_domain}"
   })
   data_json_wo_version = local.secret_versions.oidc
