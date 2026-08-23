@@ -22,6 +22,34 @@ data "zitadel_organizations" "default" {
   is_default = true
 }
 
+resource "vault_policy" "secrets" {
+  name   = "tandoor-secrets"
+  policy = <<-EOT
+    path "auth/token/lookup-self" {
+      capabilities = ["read"]
+    }
+
+    path "auth/token/renew-self" {
+      capabilities = ["update"]
+    }
+
+    path "${var.applications_mount_path}/data/tandoor/*" {
+      capabilities = ["read"]
+    }
+  EOT
+}
+
+resource "vault_kubernetes_auth_backend_role" "secrets" {
+  backend                          = var.kubernetes_auth_path
+  role_name                        = "tandoor-secrets"
+  bound_service_account_names      = ["tandoor-secrets"]
+  bound_service_account_namespaces = ["tandoor"]
+  token_policies                   = [vault_policy.secrets.name]
+  token_no_default_policy          = true
+  token_ttl                        = 900
+  token_max_ttl                    = 900
+}
+
 resource "zitadel_project" "tandoor" {
   name                   = "Tandoor"
   org_id                 = one(data.zitadel_organizations.default.ids)
