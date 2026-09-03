@@ -119,6 +119,20 @@ data "json-formatter_format_json" "headscale_policy" {
         "src" : [local.gha_sgfdevs_tag]
         "dst" : [format("%s:*", local.sgfdevs_workload_cidr)]
       },
+      {
+        "action" : "accept"
+        "proto" : "tcp"
+        "src" : ["group:admins"]
+        "dst" : ["autogroup:self:22"]
+      },
+    ]
+    "ssh" : [
+      {
+        "action" : "accept"
+        "src" : ["group:admins"]
+        "dst" : ["autogroup:self"]
+        "users" : ["autogroup:nonroot"]
+      },
     ]
   })
 }
