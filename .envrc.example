@@ -1,9 +1,24 @@
 export AWS_DEFAULT_PROFILE="your-aws-profile-name"
-export TF_VAR_headscale_api_key="your-headscale-api-key"
 export TF_VAR_headscale_host="headscale.levizitting.com"
-export TF_VAR_uptimekuma_username="your-uptimekuma-username"
-export TF_VAR_uptimekuma_password="your-uptimekuma-password"
 export TF_VAR_openbao_host="secrets.levizitting.com"
-export TF_VAR_openbao_token="your-openbao-token"
 export TF_VAR_zitadel_domain="id.levizitting.com"
-export TF_VAR_zitadel_jwt_profile_json='{}'
+
+ssm_values="$(
+  aws --profile "$AWS_DEFAULT_PROFILE" ssm get-parameters \
+    --names \
+      "/infra/lz/infra-app-config/TF_VAR_headscale_api_key" \
+      "/infra/lz/infra-app-config/TF_VAR_uptimekuma_username" \
+      "/infra/lz/infra-app-config/TF_VAR_uptimekuma_password" \
+      "/infra/lz/infra-app-config/TF_VAR_openbao_token" \
+      "/infra/lz/infra-app-config/TF_VAR_zitadel_jwt_profile_json" \
+    --with-decryption --output json --no-cli-pager |
+    jq '.Parameters | map({key: (.Name | split("/") | last), value: .Value}) | from_entries'
+)"
+
+export TF_VAR_headscale_api_key="$(jq -r '.TF_VAR_headscale_api_key' <<< "$ssm_values")"
+export TF_VAR_uptimekuma_username="$(jq -r '.TF_VAR_uptimekuma_username' <<< "$ssm_values")"
+export TF_VAR_uptimekuma_password="$(jq -r '.TF_VAR_uptimekuma_password' <<< "$ssm_values")"
+export TF_VAR_openbao_token="$(jq -r '.TF_VAR_openbao_token' <<< "$ssm_values")"
+export TF_VAR_zitadel_jwt_profile_json="$(jq -r '.TF_VAR_zitadel_jwt_profile_json' <<< "$ssm_values")"
+
+unset ssm_values
