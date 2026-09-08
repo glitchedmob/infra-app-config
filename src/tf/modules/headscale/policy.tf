@@ -15,6 +15,7 @@ data "json-formatter_format_json" "headscale_policy" {
       (local.lz_k3s_tag) : ["group:infra"]
     }
     "autoApprovers" : {
+      "exitNode" : [local.infra_public_edge_tag]
       "routes" : {
         (local.management_route) : [local.proxmox_tag]
         (local.workload_route_supernet) : [local.proxmox_tag]
@@ -22,6 +23,11 @@ data "json-formatter_format_json" "headscale_policy" {
       }
     }
     "acls" : [
+      {
+        "action" : "accept"
+        "src" : ["group:admins"]
+        "dst" : ["autogroup:internet:*"]
+      },
       {
         "action" : "accept"
         "src" : ["group:admins"]
