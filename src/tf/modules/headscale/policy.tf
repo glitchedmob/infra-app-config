@@ -129,7 +129,7 @@ data "json-formatter_format_json" "headscale_policy" {
         "action" : "accept"
         "proto" : "tcp"
         "src" : ["group:admins"]
-        "dst" : ["autogroup:self:22"]
+        "dst" : ["autogroup:self:22,3389"]
       },
     ]
     "ssh" : [
