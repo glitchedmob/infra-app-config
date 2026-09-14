@@ -1,9 +1,9 @@
 data "json-formatter_format_json" "headscale_policy" {
   json = jsonencode({
     "groups" : {
-      "group:admins" : formatlist("%s@", local.admins)
+      "group:levi-devices" : formatlist("%s@", local.levi_device_users)
       "group:infra" : concat(
-        formatlist("%s@", local.admins),
+        formatlist("%s@", local.levi_device_users),
         [format("%s@", local.proxmox_user)]
       )
     }
@@ -25,12 +25,12 @@ data "json-formatter_format_json" "headscale_policy" {
     "acls" : [
       {
         "action" : "accept"
-        "src" : ["group:admins"]
+        "src" : ["group:levi-devices"]
         "dst" : ["autogroup:internet:*"]
       },
       {
         "action" : "accept"
-        "src" : ["group:admins"]
+        "src" : ["group:levi-devices"]
         "dst" : [
           format("%s:*", local.proxmox_tag),
           format("%s:*", local.infra_public_edge_tag),
@@ -127,15 +127,15 @@ data "json-formatter_format_json" "headscale_policy" {
       },
       {
         "action" : "accept"
-        "proto" : "tcp"
-        "src" : ["group:admins"]
-        "dst" : ["autogroup:self:22,3389"]
+        # All ports and protocols between Levi's user-owned devices.
+        "src" : ["group:levi-devices"]
+        "dst" : ["autogroup:self:*"]
       },
     ]
     "ssh" : [
       {
         "action" : "accept"
-        "src" : ["group:admins"]
+        "src" : ["group:levi-devices"]
         "dst" : ["autogroup:self"]
         "users" : ["autogroup:nonroot"]
       },
