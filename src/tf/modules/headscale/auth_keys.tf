@@ -48,7 +48,7 @@ module "headscale_infra_public_edge_auth_key" {
   acl_tags                  = [local.infra_public_edge_tag]
   ssm_parameter_name        = "/homelab/headscale/infra-public-edge/${local.infra_public_edge_node}-auth-key"
   ssm_parameter_description = "Headscale pre-auth key for ${local.infra_public_edge_node}"
-  auth_key_rotation_version = 1
+  auth_key_rotation_version = 2
 }
 
 module "headscale_lz_k3s_auth_keys" {
