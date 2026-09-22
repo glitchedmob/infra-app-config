@@ -1,5 +1,5 @@
 locals {
-  application_url = "https://speedtest.levizitting.com:8443"
+  application_url = "https://speedtest.levizitting.com"
   secret_versions = {
     runtime = 1
     oidc    = 1
