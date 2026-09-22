@@ -1,9 +1,11 @@
 locals {
   application_url = "https://speedtest.levizitting.com"
   secret_versions = {
-    runtime = 1
-    oidc    = 1
-    backup  = 1
+    app_key        = 1
+    admin_password = 1
+    cookie_secret  = 1
+    oidc           = 1
+    backup         = 1
   }
 
   # Set this to false after the first apply creates and stores the client secret.
@@ -108,11 +110,6 @@ ephemeral "random_password" "admin_password" {
   special = false
 }
 
-ephemeral "random_password" "api_token" {
-  length  = 64
-  special = false
-}
-
 ephemeral "random_password" "cookie_secret" {
   length  = 32
   special = false
@@ -123,16 +120,24 @@ ephemeral "random_password" "restic_password" {
   special = false
 }
 
-resource "vault_kv_secret_v2" "runtime" {
+resource "vault_kv_secret_v2" "app_key" {
   mount        = var.applications_mount_path
-  name         = "isp-monitoring/runtime"
+  name         = "isp-monitoring/app-key"
   disable_read = true
   data_json_wo = jsonencode({
-    appKey        = "base64:${base64encode(ephemeral.random_password.app_key.result)}"
-    adminPassword = ephemeral.random_password.admin_password.result
-    apiToken      = ephemeral.random_password.api_token.result
+    appKey = "base64:${base64encode(ephemeral.random_password.app_key.result)}"
   })
-  data_json_wo_version = local.secret_versions.runtime
+  data_json_wo_version = local.secret_versions.app_key
+}
+
+resource "vault_kv_secret_v2" "admin_password" {
+  mount        = var.applications_mount_path
+  name         = "isp-monitoring/admin-password"
+  disable_read = true
+  data_json_wo = jsonencode({
+    adminPassword = ephemeral.random_password.admin_password.result
+  })
+  data_json_wo_version = local.secret_versions.admin_password
 }
 
 resource "vault_kv_secret_v2" "oidc" {
@@ -143,9 +148,18 @@ resource "vault_kv_secret_v2" "oidc" {
     clientId     = zitadel_application_oidc.isp_monitoring.client_id
     clientSecret = one(ephemeral.zitadel_application_oidc_client_secret.isp_monitoring[*].client_secret)
     issuerUrl    = "https://${var.zitadel_domain}"
-    cookieSecret = base64encode(ephemeral.random_password.cookie_secret.result)
   })
   data_json_wo_version = local.secret_versions.oidc
+}
+
+resource "vault_kv_secret_v2" "cookie_secret" {
+  mount        = var.applications_mount_path
+  name         = "isp-monitoring/cookie-secret"
+  disable_read = true
+  data_json_wo = jsonencode({
+    cookieSecret = base64encode(ephemeral.random_password.cookie_secret.result)
+  })
+  data_json_wo_version = local.secret_versions.cookie_secret
 }
 
 resource "vault_kv_secret_v2" "backup" {
