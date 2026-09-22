@@ -5,6 +5,10 @@ locals {
     oidc    = 1
     backup  = 1
   }
+
+  # Set this to false after the first apply creates and stores the client secret.
+  bootstrap_oidc_client_secret = true
+  rotate_oidc_client_secret    = false
 }
 
 data "zitadel_organizations" "default" {
@@ -50,7 +54,7 @@ resource "zitadel_application_oidc" "isp_monitoring" {
   grant_types                  = ["OIDC_GRANT_TYPE_AUTHORIZATION_CODE"]
   post_logout_redirect_uris    = [local.application_url]
   app_type                     = "OIDC_APP_TYPE_WEB"
-  auth_method_type             = "OIDC_AUTH_METHOD_TYPE_BASIC"
+  auth_method_type             = local.bootstrap_oidc_client_secret ? "OIDC_AUTH_METHOD_TYPE_NONE" : "OIDC_AUTH_METHOD_TYPE_BASIC"
   version                      = "OIDC_VERSION_1_0"
   dev_mode                     = false
   access_token_role_assertion  = false
@@ -58,6 +62,14 @@ resource "zitadel_application_oidc" "isp_monitoring" {
   id_token_userinfo_assertion  = true
   skip_native_app_success_page = false
   additional_origins           = []
+}
+
+ephemeral "zitadel_application_oidc_client_secret" "isp_monitoring" {
+  count = local.bootstrap_oidc_client_secret || local.rotate_oidc_client_secret ? 1 : 0
+
+  project_id = zitadel_application_oidc.isp_monitoring.project_id
+  app_id     = zitadel_application_oidc.isp_monitoring.id
+  org_id     = zitadel_application_oidc.isp_monitoring.org_id
 }
 
 resource "vault_policy" "secrets" {
@@ -129,7 +141,7 @@ resource "vault_kv_secret_v2" "oidc" {
   disable_read = true
   data_json_wo = jsonencode({
     clientId     = zitadel_application_oidc.isp_monitoring.client_id
-    clientSecret = zitadel_application_oidc.isp_monitoring.client_secret
+    clientSecret = one(ephemeral.zitadel_application_oidc_client_secret.isp_monitoring[*].client_secret)
     issuerUrl    = "https://${var.zitadel_domain}"
     cookieSecret = base64encode(ephemeral.random_password.cookie_secret.result)
   })
