@@ -45,6 +45,12 @@ data "json-formatter_format_json" "headscale_policy" {
       },
       {
         "action" : "accept"
+        "proto" : "icmp"
+        "src" : [local.lz_k3s_tag]
+        "dst" : [format("%s:*", local.infra_public_edge_tag)]
+      },
+      {
+        "action" : "accept"
         "src" : [local.infra_public_edge_tag]
         "dst" : [format("%s:80", local.lz_workload_cidr)]
       },
