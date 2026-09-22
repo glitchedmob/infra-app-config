@@ -1,5 +1,5 @@
 locals {
-  application_url = "https://speedtest.levizitting.com"
+  application_url = "https://smokeping.levizitting.com"
   secret_versions = {
     app_key        = 1
     admin_password = 1
