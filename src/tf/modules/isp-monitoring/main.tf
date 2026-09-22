@@ -108,11 +108,6 @@ ephemeral "random_password" "admin_password" {
   special = false
 }
 
-ephemeral "random_password" "api_token" {
-  length  = 64
-  special = false
-}
-
 ephemeral "random_password" "cookie_secret" {
   length  = 32
   special = false
@@ -130,7 +125,6 @@ resource "vault_kv_secret_v2" "runtime" {
   data_json_wo = jsonencode({
     appKey        = "base64:${base64encode(ephemeral.random_password.app_key.result)}"
     adminPassword = ephemeral.random_password.admin_password.result
-    apiToken      = ephemeral.random_password.api_token.result
   })
   data_json_wo_version = local.secret_versions.runtime
 }
