@@ -7,8 +7,3 @@ variable "kubernetes_auth_path" {
   description = "Path of the OpenBao Kubernetes authentication backend"
   type        = string
 }
-
-variable "zitadel_domain" {
-  description = "ZITADEL API hostname"
-  type        = string
-}
