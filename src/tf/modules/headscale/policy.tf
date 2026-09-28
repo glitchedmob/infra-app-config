@@ -12,7 +12,6 @@ data "json-formatter_format_json" "headscale_policy" {
       (local.infra_public_edge_tag) : ["group:infra"]
       (local.gha_lz_tag) : ["group:infra"]
       (local.gha_sgfdevs_tag) : ["group:infra"]
-      (local.lz_k3s_tag) : ["group:infra"]
       (local.lz_dns_gateway_tag) : ["group:infra"]
       (local.lz_ingress_gateway_tag) : ["group:infra"]
     }
@@ -21,7 +20,7 @@ data "json-formatter_format_json" "headscale_policy" {
       "routes" : {
         (local.management_route) : [local.proxmox_tag]
         (local.workload_route_supernet) : [local.proxmox_tag]
-        (local.public_edge_dns_ip) : [local.infra_public_edge_tag, local.proxmox_tag, local.lz_k3s_tag]
+        (local.public_edge_dns_ip) : [local.infra_public_edge_tag, local.proxmox_tag]
       }
     }
     "acls" : [
@@ -44,12 +43,6 @@ data "json-formatter_format_json" "headscale_policy" {
         "action" : "accept"
         "src" : [local.proxmox_tag]
         "dst" : [format("%s:*", local.proxmox_tag)]
-      },
-      {
-        "action" : "accept"
-        "proto" : "icmp"
-        "src" : [local.lz_k3s_tag]
-        "dst" : [format("%s:*", local.infra_public_edge_tag)]
       },
       {
         "action" : "accept"
@@ -85,11 +78,6 @@ data "json-formatter_format_json" "headscale_policy" {
         "action" : "accept"
         "src" : [local.gha_lz_tag]
         "dst" : [format("%s:22", local.infra_public_edge_tag)]
-      },
-      {
-        "action" : "accept"
-        "src" : [local.gha_lz_tag]
-        "dst" : [format("%s:443", local.lz_k3s_tag)]
       },
       {
         "action" : "accept"

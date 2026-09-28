@@ -25,11 +25,6 @@ resource "headscale_user" "gha_sgfdevs" {
   force_delete = true
 }
 
-resource "headscale_user" "lz_k3s" {
-  name         = local.lz_k3s_user
-  force_delete = true
-}
-
 resource "headscale_user" "lz_dns_gateway" {
   name         = local.lz_dns_gateway_user
   force_delete = true
