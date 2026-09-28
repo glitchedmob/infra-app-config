@@ -13,6 +13,8 @@ data "json-formatter_format_json" "headscale_policy" {
       (local.gha_lz_tag) : ["group:infra"]
       (local.gha_sgfdevs_tag) : ["group:infra"]
       (local.lz_k3s_tag) : ["group:infra"]
+      (local.lz_dns_gateway_tag) : ["group:infra"]
+      (local.lz_ingress_gateway_tag) : ["group:infra"]
     }
     "autoApprovers" : {
       "exitNode" : [local.infra_public_edge_tag]
@@ -114,6 +116,19 @@ data "json-formatter_format_json" "headscale_policy" {
         "proto" : "icmp"
         "src" : [local.gha_lz_tag]
         "dst" : [format("%s:*", local.lz_workload_cidr)]
+      },
+      {
+        "action" : "accept"
+        "src" : [local.lz_dns_gateway_tag]
+        "dst" : [format("%s:53", local.public_edge_dns_ip)]
+      },
+      {
+        "action" : "accept"
+        "src" : [local.infra_public_edge_tag]
+        "dst" : [
+          format("%s:8000", local.lz_ingress_gateway_tag),
+          format("%s:8443", local.lz_ingress_gateway_tag),
+        ]
       },
       {
         "action" : "accept"
