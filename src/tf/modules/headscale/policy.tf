@@ -54,21 +54,6 @@ data "json-formatter_format_json" "headscale_policy" {
       {
         "action" : "accept"
         "src" : [local.infra_public_edge_tag]
-        "dst" : [format("%s:80", local.lz_workload_cidr)]
-      },
-      {
-        "action" : "accept"
-        "src" : [local.infra_public_edge_tag]
-        "dst" : [format("%s:443", local.lz_workload_cidr)]
-      },
-      {
-        "action" : "accept"
-        "src" : [local.infra_public_edge_tag]
-        "dst" : [format("%s:31443", local.lz_workload_cidr)]
-      },
-      {
-        "action" : "accept"
-        "src" : [local.infra_public_edge_tag]
         "dst" : [format("%s:80", local.sgfdevs_workload_cidr)]
       },
       {
