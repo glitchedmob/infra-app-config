@@ -51,6 +51,32 @@ module "headscale_infra_public_edge_auth_key" {
   auth_key_rotation_version = 2
 }
 
+module "headscale_lz_dns_gateway_auth_key" {
+  source = "./modules/pre-auth-key"
+
+  user_id                   = headscale_user.lz_dns_gateway.id
+  time_to_expire            = "36500d"
+  reusable                  = true
+  ephemeral                 = false
+  acl_tags                  = [local.lz_dns_gateway_tag]
+  ssm_parameter_name        = "/homelab/headscale/pods/lz/dns-gateway-auth-key"
+  ssm_parameter_description = "Headscale pre-auth key for lz DNS gateway"
+  auth_key_rotation_version = 1
+}
+
+module "headscale_lz_ingress_gateway_auth_key" {
+  source = "./modules/pre-auth-key"
+
+  user_id                   = headscale_user.lz_ingress_gateway.id
+  time_to_expire            = "36500d"
+  reusable                  = true
+  ephemeral                 = false
+  acl_tags                  = [local.lz_ingress_gateway_tag]
+  ssm_parameter_name        = "/homelab/headscale/pods/lz/ingress-gateway-auth-key"
+  ssm_parameter_description = "Headscale pre-auth key for lz ingress gateway"
+  auth_key_rotation_version = 1
+}
+
 module "headscale_lz_k3s_auth_keys" {
   for_each = toset(local.headscale_lz_k3s_nodes)
   source   = "./modules/pre-auth-key"
