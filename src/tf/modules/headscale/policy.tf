@@ -14,6 +14,7 @@ data "json-formatter_format_json" "headscale_policy" {
       (local.gha_sgfdevs_tag) : ["group:infra"]
       (local.lz_dns_gateway_tag) : ["group:infra"]
       (local.lz_ingress_gateway_tag) : ["group:infra"]
+      (local.sgfdevs_ingress_gateway_tag) : ["group:infra"]
     }
     "autoApprovers" : {
       "exitNode" : [local.infra_public_edge_tag]
@@ -101,6 +102,14 @@ data "json-formatter_format_json" "headscale_policy" {
         "dst" : [
           format("%s:8000", local.lz_ingress_gateway_tag),
           format("%s:8443", local.lz_ingress_gateway_tag),
+        ]
+      },
+      {
+        "action" : "accept"
+        "src" : [local.infra_public_edge_tag]
+        "dst" : [
+          format("%s:8000", local.sgfdevs_ingress_gateway_tag),
+          format("%s:8443", local.sgfdevs_ingress_gateway_tag),
         ]
       },
       {
