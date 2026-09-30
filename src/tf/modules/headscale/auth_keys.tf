@@ -76,17 +76,3 @@ module "headscale_lz_ingress_gateway_auth_key" {
   ssm_parameter_description = "Headscale pre-auth key for lz ingress gateway"
   auth_key_rotation_version = 1
 }
-
-module "headscale_lz_k3s_auth_keys" {
-  for_each = toset(local.headscale_lz_k3s_nodes)
-  source   = "./modules/pre-auth-key"
-
-  user_id                   = headscale_user.lz_k3s.id
-  time_to_expire            = "1h"
-  reusable                  = false
-  ephemeral                 = false
-  acl_tags                  = [local.lz_k3s_tag]
-  ssm_parameter_name        = "/homelab/headscale/lz-k3s/${each.key}-auth-key"
-  ssm_parameter_description = "Headscale pre-auth key for ${each.key}"
-  auth_key_rotation_version = 1
-}
