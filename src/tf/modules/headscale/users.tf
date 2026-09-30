@@ -34,3 +34,8 @@ resource "headscale_user" "lz_ingress_gateway" {
   name         = local.lz_ingress_gateway_user
   force_delete = true
 }
+
+resource "headscale_user" "sgfdevs_ingress_gateway" {
+  name         = local.sgfdevs_ingress_gateway_user
+  force_delete = true
+}

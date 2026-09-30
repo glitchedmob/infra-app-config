@@ -76,3 +76,16 @@ module "headscale_lz_ingress_gateway_auth_key" {
   ssm_parameter_description = "Headscale pre-auth key for lz ingress gateway"
   auth_key_rotation_version = 1
 }
+
+module "headscale_sgfdevs_ingress_gateway_auth_key" {
+  source = "./modules/pre-auth-key"
+
+  user_id                   = headscale_user.sgfdevs_ingress_gateway.id
+  time_to_expire            = "36500d"
+  reusable                  = true
+  ephemeral                 = false
+  acl_tags                  = [local.sgfdevs_ingress_gateway_tag]
+  ssm_parameter_name        = "/homelab/headscale/pods/sgfdevs/ingress-gateway-auth-key"
+  ssm_parameter_description = "Headscale pre-auth key for sgfdevs ingress gateway"
+  auth_key_rotation_version = 1
+}
