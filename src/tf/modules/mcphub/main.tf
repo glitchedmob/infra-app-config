@@ -10,7 +10,7 @@ locals {
     oidc                  = 1
   }
 
-  bootstrap_oidc_client_secret = true
+  bootstrap_oidc_client_secret = false
   rotate_oidc_client_secret    = false
 }
 
