@@ -2,9 +2,12 @@ locals {
   application_url = "https://mcp.levizitting.com"
 
   secret_versions = {
-    runtime = 1
-    backup  = 1
-    oidc    = 1
+    jwt                   = 1
+    better_auth           = 1
+    credential_encryption = 1
+    admin                 = 1
+    backup                = 1
+    oidc                  = 1
   }
 
   bootstrap_oidc_client_secret = true
@@ -126,17 +129,44 @@ resource "vault_kv_secret_v2" "oidc" {
   data_json_wo_version = local.secret_versions.oidc
 }
 
-resource "vault_kv_secret_v2" "runtime" {
+resource "vault_kv_secret_v2" "jwt" {
   mount        = var.applications_mount_path
-  name         = "mcphub/runtime"
+  name         = "mcphub/jwt"
   disable_read = true
   data_json_wo = jsonencode({
-    jwtSecret               = ephemeral.random_password.jwt_secret.result
-    betterAuthSecret        = ephemeral.random_password.better_auth_secret.result
-    credentialEncryptionKey = ephemeral.random_bytes.credential_encryption_key.base64
-    adminPassword           = ephemeral.random_password.admin_password.result
+    jwtSecret = ephemeral.random_password.jwt_secret.result
   })
-  data_json_wo_version = local.secret_versions.runtime
+  data_json_wo_version = local.secret_versions.jwt
+}
+
+resource "vault_kv_secret_v2" "better_auth" {
+  mount        = var.applications_mount_path
+  name         = "mcphub/better-auth"
+  disable_read = true
+  data_json_wo = jsonencode({
+    betterAuthSecret = ephemeral.random_password.better_auth_secret.result
+  })
+  data_json_wo_version = local.secret_versions.better_auth
+}
+
+resource "vault_kv_secret_v2" "credential_encryption" {
+  mount        = var.applications_mount_path
+  name         = "mcphub/credential-encryption"
+  disable_read = true
+  data_json_wo = jsonencode({
+    credentialEncryptionKey = ephemeral.random_bytes.credential_encryption_key.base64
+  })
+  data_json_wo_version = local.secret_versions.credential_encryption
+}
+
+resource "vault_kv_secret_v2" "admin" {
+  mount        = var.applications_mount_path
+  name         = "mcphub/admin"
+  disable_read = true
+  data_json_wo = jsonencode({
+    adminPassword = ephemeral.random_password.admin_password.result
+  })
+  data_json_wo_version = local.secret_versions.admin
 }
 
 resource "vault_kv_secret_v2" "backup" {
