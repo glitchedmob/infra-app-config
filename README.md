@@ -26,5 +26,4 @@ make tf-output
 - Apply only after the services configured by this stack are initialized and reachable.
 - Use `.envrc.example` as the authoritative list of required local credentials. Never commit `.envrc` or secret payloads.
 - Secret payloads are write-only where supported. Change module-defined rotation versions only when intentionally replacing those values.
-- MCPHub uses the same two-phase Zitadel bootstrap as Sparky and Tandoor. Its initial configuration has `bootstrap_oidc_client_secret = true`; set it to false after the first successful apply. See [`src/tf/modules/mcphub/README.md`](src/tf/modules/mcphub/README.md) for the secret contract and user grants.
 - Treat plans and outputs as sensitive because they may contain application or credential metadata.
