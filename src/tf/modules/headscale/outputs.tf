@@ -7,6 +7,7 @@ output "ssm_paths" {
     headscale_gha_lz_auth_key                  = module.headscale_gha_lz_auth_key.ssm_parameter_name
     headscale_gha_sgfdevs_auth_key             = module.headscale_gha_sgfdevs_auth_key.ssm_parameter_name
     headscale_infra_public_edge_auth_key       = module.headscale_infra_public_edge_auth_key.ssm_parameter_name
+    headscale_mastodon_auth_key                = module.headscale_mastodon_auth_key.ssm_parameter_name
     headscale_lz_dns_gateway_auth_key          = module.headscale_lz_dns_gateway_auth_key.ssm_parameter_name
     headscale_lz_ingress_gateway_auth_key      = module.headscale_lz_ingress_gateway_auth_key.ssm_parameter_name
     headscale_sgfdevs_ingress_gateway_auth_key = module.headscale_sgfdevs_ingress_gateway_auth_key.ssm_parameter_name

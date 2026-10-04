@@ -15,6 +15,11 @@ resource "headscale_user" "infra_public_edge" {
   force_delete = true
 }
 
+resource "headscale_user" "mastodon" {
+  name         = local.mastodon_user
+  force_delete = true
+}
+
 resource "headscale_user" "gha_lz" {
   name         = local.gha_lz_user
   force_delete = true
