@@ -10,6 +10,7 @@ data "json-formatter_format_json" "headscale_policy" {
     "tagOwners" : {
       (local.proxmox_tag) : ["group:infra"]
       (local.infra_public_edge_tag) : ["group:infra"]
+      (local.mastodon_tag) : ["group:infra"]
       (local.gha_lz_tag) : ["group:infra"]
       (local.gha_sgfdevs_tag) : ["group:infra"]
       (local.lz_dns_gateway_tag) : ["group:infra"]
@@ -39,6 +40,18 @@ data "json-formatter_format_json" "headscale_policy" {
           format("%s:*", local.management_route),
           format("%s:*", local.workload_route_supernet),
         ]
+      },
+      {
+        "action" : "accept"
+        "proto" : "tcp"
+        "src" : ["group:levi-devices"]
+        "dst" : [format("%s:22,80,443", local.mastodon_tag)]
+      },
+      {
+        "action" : "accept"
+        "proto" : "tcp"
+        "src" : [local.infra_public_edge_tag]
+        "dst" : [format("%s:80,443", local.mastodon_tag)]
       },
       {
         "action" : "accept"
