@@ -14,16 +14,15 @@ locals {
   }
 
   legacy_service_monitors = {
-    "cms.methodconf.com"    = "https://cms.methodconf.com"
-    "crm.sgf.dev"           = "https://crm.sgf.dev"
-    "docs.opensgf.org"      = "https://docs.opensgf.org"
-    "docs.sgf.dev"          = "https://docs.sgf.dev"
-    "grocy.levizitting.com" = "https://grocy.levizitting.com"
-    "methodconf.com"        = "https://methodconf.com"
-    "newsletter.sgf.dev"    = "https://newsletter.sgf.dev"
-    "plane.sgf.dev"         = "https://plane.sgf.dev"
-    "social.sgf.dev"        = "https://social.sgf.dev"
-    "www.sgf.dev"           = "https://www.sgf.dev"
+    "cms.methodconf.com" = "https://cms.methodconf.com"
+    "crm.sgf.dev"        = "https://crm.sgf.dev"
+    "docs.opensgf.org"   = "https://docs.opensgf.org"
+    "docs.sgf.dev"       = "https://docs.sgf.dev"
+    "methodconf.com"     = "https://methodconf.com"
+    "newsletter.sgf.dev" = "https://newsletter.sgf.dev"
+    "plane.sgf.dev"      = "https://plane.sgf.dev"
+    "social.sgf.dev"     = "https://social.sgf.dev"
+    "www.sgf.dev"        = "https://www.sgf.dev"
   }
 }
 
