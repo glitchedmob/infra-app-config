@@ -7,8 +7,8 @@ locals {
     oidc    = 1
   }
 
-  bootstrap_oidc_client_secret = true
-  rotate_oidc_client_secret    = false
+  bootstrap_oidc_client_secret = false
+  rotate_oidc_client_secret    = true
 }
 
 ephemeral "random_password" "session_secret" {
