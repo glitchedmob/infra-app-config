@@ -8,7 +8,7 @@ locals {
   }
 
   bootstrap_oidc_client_secret = false
-  rotate_oidc_client_secret    = true
+  rotate_oidc_client_secret    = false
 }
 
 ephemeral "random_password" "session_secret" {
@@ -56,7 +56,7 @@ resource "vault_kubernetes_auth_backend_role" "secrets" {
 resource "zitadel_project" "mealie" {
   name                   = "Mealie"
   org_id                 = one(data.zitadel_organizations.default.ids)
-  project_role_assertion = false
+  project_role_assertion = true
   project_role_check     = true
   has_project_check      = false
 }
@@ -66,6 +66,14 @@ resource "zitadel_project_role" "access" {
   project_id   = zitadel_project.mealie.id
   role_key     = "access"
   display_name = "Mealie Access"
+  group        = "Mealie"
+}
+
+resource "zitadel_project_role" "admin" {
+  org_id       = one(data.zitadel_organizations.default.ids)
+  project_id   = zitadel_project.mealie.id
+  role_key     = "admin"
+  display_name = "Mealie Administrator"
   group        = "Mealie"
 }
 
@@ -89,7 +97,7 @@ resource "zitadel_application_oidc" "mealie" {
   auth_method_type             = local.bootstrap_oidc_client_secret ? "OIDC_AUTH_METHOD_TYPE_NONE" : "OIDC_AUTH_METHOD_TYPE_BASIC"
   version                      = "OIDC_VERSION_1_0"
   dev_mode                     = false
-  id_token_role_assertion      = false
+  id_token_role_assertion      = true
   id_token_userinfo_assertion  = false
   skip_native_app_success_page = false
 }
