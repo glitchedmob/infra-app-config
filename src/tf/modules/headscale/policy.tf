@@ -10,6 +10,7 @@ data "json-formatter_format_json" "headscale_policy" {
     "tagOwners" : {
       (local.proxmox_tag) : ["group:infra"]
       (local.infra_public_edge_tag) : ["group:infra"]
+      (local.headplane_agent_tag) : ["group:infra"]
       (local.mastodon_tag) : ["group:infra"]
       (local.gha_lz_tag) : ["group:infra"]
       (local.gha_sgfdevs_tag) : ["group:infra"]
@@ -26,6 +27,13 @@ data "json-formatter_format_json" "headscale_policy" {
       }
     }
     "acls" : [
+      {
+        # ICMP access makes all tailnet peers visible to the agent's metadata sync.
+        "action" : "accept"
+        "proto" : "icmp"
+        "src" : [local.headplane_agent_tag]
+        "dst" : ["*:*"]
+      },
       {
         "action" : "accept"
         "src" : ["group:levi-devices"]
