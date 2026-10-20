@@ -5,6 +5,7 @@ locals {
   sgfdevs_workload_cidr        = "10.20.4.0/22"
   proxmox_tag                  = "tag:proxmox-x86"
   infra_public_edge_tag        = "tag:infra-public-edge"
+  headplane_agent_tag          = "tag:headplane-agent"
   mastodon_tag                 = "tag:mastodon"
   gha_lz_tag                   = "tag:gha-lz"
   gha_sgfdevs_tag              = "tag:gha-sgfdevs"
