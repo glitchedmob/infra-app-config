@@ -3,8 +3,8 @@ terraform {
     vault = {
       source = "hashicorp/vault"
     }
-    zitadel = {
-      source = "zitadel/zitadel"
+    random = {
+      source = "hashicorp/random"
     }
   }
 }
