@@ -9,7 +9,7 @@ locals {
   }
 
   bootstrap_oidc_client_secret = false
-  rotate_oidc_client_secret    = true
+  rotate_oidc_client_secret    = false
 }
 
 ephemeral "random_password" "admin_password" {
