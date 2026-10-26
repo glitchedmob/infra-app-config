@@ -54,3 +54,11 @@ module "mcphub" {
   kubernetes_auth_path    = module.openbao.kubernetes_auth_path
   zitadel_domain          = var.zitadel_domain
 }
+
+module "erpnext" {
+  source = "./modules/erpnext"
+
+  applications_mount_path = module.openbao.applications_mount_path
+  kubernetes_auth_path    = module.openbao.kubernetes_auth_path
+  zitadel_domain          = var.zitadel_domain
+}
