@@ -110,8 +110,8 @@ resource "zitadel_application_oidc" "erpnext" {
 }
 
 ephemeral "zitadel_application_oidc_client_secret" "erpnext" {
-  # Disabled until the application IDs exist from the bootstrap apply.
-  count = local.rotate_oidc_client_secret ? 1 : 0
+  # Bootstrap generates once after client creation; steady state disables this.
+  count = local.bootstrap_oidc_client_secret || local.rotate_oidc_client_secret ? 1 : 0
 
   project_id = zitadel_application_oidc.erpnext.project_id
   app_id     = zitadel_application_oidc.erpnext.id
@@ -121,9 +121,6 @@ ephemeral "zitadel_application_oidc_client_secret" "erpnext" {
 }
 
 resource "vault_kv_secret_v2" "oidc" {
-  # Do not publish an incomplete OIDC configuration during bootstrap.
-  count = local.bootstrap_oidc_client_secret ? 0 : 1
-
   mount        = var.applications_mount_path
   name         = "erpnext/oidc"
   disable_read = true
