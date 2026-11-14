@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 6.64"
+      version = "~> 6.73"
     }
     headscale = {
       source  = "awlsring/headscale"
@@ -12,11 +12,11 @@ terraform {
     }
     uptimekuma = {
       source  = "breml/uptimekuma"
-      version = "~> 0.4"
+      version = "~> 0.5"
     }
     vault = {
       source  = "hashicorp/vault"
-      version = "~> 5.11"
+      version = "~> 5.13"
     }
     json-formatter = {
       source  = "TheNicholi/json-formatter"
